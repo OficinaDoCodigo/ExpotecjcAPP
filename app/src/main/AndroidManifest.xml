@@ -21,7 +21,8 @@
         <activity
             android:name=".Detalhes"
             android:label="@string/title_activity_detalhes"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

@@ -1,12 +1,13 @@
 package com.ifrn.expotec;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,10 +19,8 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.ifrn.expotec.adapters.AdapterMenu;
 import com.ifrn.expotec.adapters.Controls;
-import com.ifrn.expotec.adapters.HttpProgress;
 import com.ifrn.expotec.models.Atividade;
-
-import java.util.ArrayList;
+import com.ifrn.expotec.models.HttpConnections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private CoordinatorLayout coordinatorLayout;
+    private boolean conectado;
     HashMap<String,List<Atividade>> listHashMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,38 +86,18 @@ public class MainActivity extends AppCompatActivity {
             setData(null);
         }
     }
-    public HashMap<String,List<Atividade>> setData(HashMap<String,List<Atividade>> hashMap){
+    public void setData(HashMap<String,List<Atividade>> hashMap){
         if (hashMap == null){
-            HttpProgress httpConnection = new HttpProgress(this,"http://192.168.0.107/exporest/v1/","get",null);
             String data = "";
             HashMap<String,List<Atividade>> atividadesPorTipo = null;
-            boolean conectado = false;
+            conectado = false;
             if (Controls.isOnline(this)) {
                 conectado = true;
-                try {
-                    data = httpConnection.execute().get();
-                    if (data.length() > 0) {
-                        findViewById(R.id.llErro).setVisibility(View.GONE);
-                        atividadesPorTipo = Controls.getData(data,tabLayout);
-                        tabLayout.setVisibility(View.VISIBLE);
-                        viewPager.setVisibility(View.VISIBLE);
-                    }else{
-                        setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
-                }
+                HttpProgress httpConnection = new HttpProgress("http://exporest.hol.es/v1/","get",null);
+                httpConnection.execute();
             }else{
                 setConfigurationConponents(null);
             }
-
-            viewPager.setAdapter(new AdapterMenu(getSupportFragmentManager(),tabLayout,atividadesPorTipo,this,conectado));
-            /*HashMap<String,String> names = new HashMap<>();
-            names.put("nome","fabiano");
-            names.put("email","fabiano@gmail.com");
-            names.put("senha","gmail.com098087");*/
-            return atividadesPorTipo;
         }else{
             Iterator itt = hashMap.values().iterator();
             while (itt.hasNext()){
@@ -125,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 tabLayout.addTab(tabLayout.newTab().setText(list.get(0).getTipo()));
             }
             viewPager.setAdapter(new AdapterMenu(getSupportFragmentManager(),tabLayout,hashMap,this,true));
-            return hashMap;
         }
     }
     public void setConfigurationConponents(String mensage){
@@ -142,5 +121,52 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable("atividades",listHashMap);
         super.onSaveInstanceState(outState);
+    }
+    private class HttpProgress extends AsyncTask<Void, Void, String> {
+        String urlString;
+        private String method;
+        private ProgressDialog progress;
+        private HashMap<String, String> data;
+        public HttpProgress(String urlString, String method, HashMap<String, String> data){
+            this.urlString = urlString;
+            this.method = method;
+            this.data = data;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("carregando");
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            if (method.equalsIgnoreCase("get")){
+                return HttpConnections.getJson(urlString);
+            }else{
+                return HttpConnections.performPostCall(urlString,data);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progress.dismiss();
+            if (method.equals("get")){
+                if (result.length() > 0) {
+                    HashMap<String, List<Atividade>> atividadesPorTipo = Controls.getData(result, tabLayout);
+                    if (atividadesPorTipo.size() == 0){
+                        setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
+                    }else{
+                        findViewById(R.id.llErro).setVisibility(View.GONE);
+                        tabLayout.setVisibility(View.VISIBLE);
+                        viewPager.setVisibility(View.VISIBLE);
+                        viewPager.setAdapter(new AdapterMenu(MainActivity.this.getSupportFragmentManager(),tabLayout,atividadesPorTipo,MainActivity.this,conectado));
+                    }
+                }else{
+                    setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
+                }
+            }
+        }
     }
 }
