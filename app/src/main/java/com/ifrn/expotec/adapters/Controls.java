@@ -1,6 +1,8 @@
 package com.ifrn.expotec.adapters;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
@@ -8,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+import com.ifrn.expotec.R;
 import com.ifrn.expotec.models.Atividade;
 import com.ifrn.expotec.models.User;
 
@@ -104,5 +107,9 @@ public class Controls {
             e.printStackTrace();
         }
         return atividadeHash;
+    }
+    public static Drawable setColor(Drawable drawable, int color){
+        drawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        return drawable;
     }
 }

@@ -75,11 +75,12 @@
                     android:layout_marginTop="28dp"
                     >
                     <ImageView
+                        android:id="@+id/ivPerfil"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:layout_marginLeft="16dp"
                         android:adjustViewBounds="true"
-                        android:src="@android:drawable/ic_menu_crop"/>
+                        />
 
                     <TextView
                         android:id="@+id/txtNome"
@@ -124,6 +125,7 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                     android:layout_marginTop="24dp"
                     >
                     <ImageView
+                        android:id="@+id/ivEvent"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:layout_marginLeft="16dp"
@@ -169,6 +171,7 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                     android:layout_marginTop="24dp"
                     >
                     <ImageView
+                        android:id="@+id/ivData"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:layout_marginLeft="16dp"
@@ -186,6 +189,7 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/txtData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="65dp"
@@ -200,6 +204,7 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                     android:layout_marginTop="24dp"
                     >
                     <ImageView
+                        android:id="@+id/ivDescricao"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:layout_marginLeft="16dp"
@@ -217,7 +222,7 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 
                 </LinearLayout>
                 <TextView
-
+                    android:id="@+id/txtDescricao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="65dp"
@@ -248,7 +253,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         app:borderWidth="0dp"
-        android:src="@android:drawable/ic_menu_crop"
+        android:src="@drawable/ic_event_available_white_24dp"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|right|end"
         android:elevation="2dp"
