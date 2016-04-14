@@ -52,7 +52,7 @@ public class HttpConnection extends AsyncTask<String, Void, String>{
         if (mSwipeRefreshLayout != null){
             mSwipeRefreshLayout.setRefreshing(true);
         }else{
-            progress.setMessage("carregando");
+            progress.setMessage("Carregando...");
             progress.show();
         }
     }
