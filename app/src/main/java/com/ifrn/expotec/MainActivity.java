@@ -8,9 +8,11 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +40,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     private ViewPager viewPager;
     private CoordinatorLayout coordinatorLayout;
     private boolean conectado;
-    HashMap<String,List<Atividade>> listHashMap;
+    private HashMap<String,List<Atividade>> listHashMap;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         toggle = new ActionBarDrawerToggle(this,drawerLayout, toobar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
@@ -91,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     }
     public void setData(HashMap<String,List<Atividade>> hashMap){
         if (hashMap == null){
-            String data = "";
             HashMap<String,List<Atividade>> atividadesPorTipo = null;
             conectado = false;
             if (Controls.isOnline(this)) {
@@ -129,7 +134,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     public void setConfigurationConponents(String mensage){
         tabLayout.setVisibility(View.GONE);
         viewPager.setVisibility(View.GONE);
-        findViewById(R.id.recyclerView).setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setVisibility(View.GONE);
         findViewById(R.id.llErro).setVisibility(View.VISIBLE);
         if (mensage != null){
             TextView txtMensage = (TextView) findViewById(R.id.txtShowMensage);

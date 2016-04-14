@@ -78,6 +78,7 @@ public class TabFragment extends Fragment{
         try{
             if (mList.size() < 1){
                 recyclerView.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setVisibility(View.GONE);
             }else{
                 scrollView.setVisibility(View.GONE);
                 try{
@@ -115,8 +116,12 @@ public class TabFragment extends Fragment{
                         if (ultimaAtividade.getTipo().equals("mesa redonda")){
                             ultimaAtividade.setTipo("mesa_redonda");
                         }
-                        HttpConnection httpConnection = new HttpConnection(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
-                        httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId(),"get");
+                        if (Controls.isOnline(getActivity())){
+                            HttpConnection httpConnection = new HttpConnection(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
+                            httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId(),"get");
+                        }else {
+                            Snackbar.make(recyclerView,"Você está desconectado!",Snackbar.LENGTH_LONG).show();
+                        }
                     }
                 }
             }
@@ -136,14 +141,19 @@ public class TabFragment extends Fragment{
         super.onSaveInstanceState(outState);
     }
     public void recarregar(){
-        try {
-            ultimaAtividade = mList.get(0);
-            if (ultimaAtividade.getTipo().equals("mesa redonda")){
-                ultimaAtividade.setTipo("mesa_redonda");
-            }
-            adapterAtividade.removeAll();
-        }catch (Exception e){}
-        HttpConnection httpConnection = new HttpConnection(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
-        httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId()+2,"get");
+        if(Controls.isOnline(getActivity())){
+            try {
+                ultimaAtividade = mList.get(0);
+                if (ultimaAtividade.getTipo().equals("mesa redonda")){
+                    ultimaAtividade.setTipo("mesa_redonda");
+                }
+                adapterAtividade.removeAll();
+            }catch (Exception e){}
+            HttpConnection httpConnection = new HttpConnection(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
+            httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId()+2,"get");
+        }else{
+            Snackbar.make(recyclerView,"Você está desconectado!",Snackbar.LENGTH_LONG).show();
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

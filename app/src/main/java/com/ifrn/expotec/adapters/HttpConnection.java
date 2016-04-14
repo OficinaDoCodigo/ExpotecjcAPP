@@ -66,23 +66,27 @@ public class HttpConnection extends AsyncTask<String, Void, String>{
     }
     @Override
     protected void onPostExecute(String result) {
-        if (adapterAtividade != null){
-            if (result.length() > 0) {
-                List<Atividade> novos = Controls.recarregar(result);
-                if (novos.size() == 0){
+        try {
+            if (mSwipeRefreshLayout != null){
+                if (result.length() > 0) {
+                    List<Atividade> novos = Controls.recarregar(result);
+                    if (novos.size() == 0){
+                        snack();
+                    }
+                    for (int i = 0; i <novos.size() ; i++) {
+                        novos.get(i).setTitulo(novos.get(i).getTitulo());
+                        adapterAtividade.addItem(novos.get(i),sizeList);
+                    }
+                }else{
                     snack();
                 }
-                for (int i = 0; i <novos.size() ; i++) {
-                    novos.get(i).setTitulo(novos.get(i).getTitulo());
-                    adapterAtividade.addItem(novos.get(i),sizeList);
-                }
+                mSwipeRefreshLayout.setRefreshing(false);
             }else{
-                snack();
+                delegate.processFinish(result);
+                progress.dismiss();
             }
-            mSwipeRefreshLayout.setRefreshing(false);
-        }else{
-            delegate.processFinish(result);
-            progress.dismiss();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
     public void snack(){
