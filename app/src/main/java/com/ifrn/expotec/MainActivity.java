@@ -19,13 +19,15 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.ifrn.expotec.adapters.AdapterMenu;
 import com.ifrn.expotec.adapters.Controls;
+import com.ifrn.expotec.adapters.HttpConnection;
+import com.ifrn.expotec.interfaces.AsyncResponse;
 import com.ifrn.expotec.models.Atividade;
 import com.ifrn.expotec.models.HttpConnections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AsyncResponse{
     private ActionBarDrawerToggle toggle;
     private Toolbar toobar;
     private NavigationView navigationView;
@@ -93,8 +95,9 @@ public class MainActivity extends AppCompatActivity {
             conectado = false;
             if (Controls.isOnline(this)) {
                 conectado = true;
-                HttpProgress httpConnection = new HttpProgress("http://exporest.hol.es/v1/","get",null);
-                httpConnection.execute();
+                HttpConnection httpConnection = new HttpConnection(MainActivity.this);
+                httpConnection.delegate = this;
+                httpConnection.execute("http://exporest.hol.es/v1/","get");
             }else{
                 setConfigurationConponents(null);
             }
@@ -122,51 +125,22 @@ public class MainActivity extends AppCompatActivity {
         outState.putSerializable("atividades",listHashMap);
         super.onSaveInstanceState(outState);
     }
-    private class HttpProgress extends AsyncTask<Void, Void, String> {
-        String urlString;
-        private String method;
-        private ProgressDialog progress;
-        private HashMap<String, String> data;
-        public HttpProgress(String urlString, String method, HashMap<String, String> data){
-            this.urlString = urlString;
-            this.method = method;
-            this.data = data;
-        }
 
-        @Override
-        protected void onPreExecute() {
-            progress = new ProgressDialog(MainActivity.this);
-            progress.setMessage("carregando");
-            progress.show();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            if (method.equalsIgnoreCase("get")){
-                return HttpConnections.getJson(urlString);
+    @Override
+    public void processFinish(String data) {
+        if (data.length() > 0) {
+            HashMap<String, List<Atividade>> atividadesPorTipo = Controls.getData(data, tabLayout);
+            if (atividadesPorTipo.size() == 0){
+                setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
             }else{
-                return HttpConnections.performPostCall(urlString,data);
+                findViewById(R.id.llErro).setVisibility(View.GONE);
+                tabLayout.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
+                viewPager.setAdapter(new AdapterMenu(MainActivity.this.getSupportFragmentManager(),tabLayout,atividadesPorTipo,MainActivity.this,conectado));
             }
+        }else{
+            setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
         }
 
-        @Override
-        protected void onPostExecute(String result) {
-            progress.dismiss();
-            if (method.equals("get")){
-                if (result.length() > 0) {
-                    HashMap<String, List<Atividade>> atividadesPorTipo = Controls.getData(result, tabLayout);
-                    if (atividadesPorTipo.size() == 0){
-                        setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
-                    }else{
-                        findViewById(R.id.llErro).setVisibility(View.GONE);
-                        tabLayout.setVisibility(View.VISIBLE);
-                        viewPager.setVisibility(View.VISIBLE);
-                        viewPager.setAdapter(new AdapterMenu(MainActivity.this.getSupportFragmentManager(),tabLayout,atividadesPorTipo,MainActivity.this,conectado));
-                    }
-                }else{
-                    setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
-                }
-            }
-        }
     }
 }

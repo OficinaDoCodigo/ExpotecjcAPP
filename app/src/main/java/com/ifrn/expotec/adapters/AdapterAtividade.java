@@ -66,6 +66,11 @@ public class AdapterAtividade extends RecyclerView.Adapter<AdapterAtividade.MyVi
     public void addItem(Atividade atividade, int position){
         mList.add(atividade);
         notifyItemInserted(position);
+
+    }
+    public void removeAll(){
+        notifyItemRangeRemoved(0,mList.size());
+        mList.clear();
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public SimpleDraweeView fotoUser;

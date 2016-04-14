@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 
 import com.ifrn.expotec.R;
@@ -66,6 +67,7 @@ public class Controls {
     public static List<Atividade> recarregar(String data){
         try {
             JSONObject jsonObject = new JSONObject(data).getJSONObject("results");
+
             JSONArray jsonResult = jsonObject.getJSONArray("activity");
             return getAtividades(jsonResult);
         } catch (JSONException e) {
