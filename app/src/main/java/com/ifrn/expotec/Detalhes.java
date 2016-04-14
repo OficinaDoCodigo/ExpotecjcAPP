@@ -66,6 +66,8 @@ public class Detalhes extends AppCompatActivity {
 
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.AudioFileInfoOverlayText);
         collapsingToolbarLayout.setTitle(atividade.getTipo());
+        collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorAccent));
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.colorAccent));
 
         fotoUser.setImageURI(Uri.parse(atividade.getUser().getPhoto()));
         txtNome.setText(atividade.getUser().getNome());

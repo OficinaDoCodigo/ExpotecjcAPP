@@ -55,6 +55,7 @@ public class TabFragment extends Fragment{
         ScrollView scrollView = (ScrollView)view.findViewById(R.id.scrollView);
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
@@ -136,13 +137,13 @@ public class TabFragment extends Fragment{
     }
     public void recarregar(){
         try {
-            ultimaAtividade = mList.get(mList.size()-1);
+            ultimaAtividade = mList.get(0);
             if (ultimaAtividade.getTipo().equals("mesa redonda")){
                 ultimaAtividade.setTipo("mesa_redonda");
             }
             adapterAtividade.removeAll();
         }catch (Exception e){}
         HttpConnection httpConnection = new HttpConnection(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
-        httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+200,"get");
+        httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId()+2,"get");
     }
 }

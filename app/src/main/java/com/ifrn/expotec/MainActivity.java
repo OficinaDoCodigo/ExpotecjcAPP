@@ -2,6 +2,7 @@ package com.ifrn.expotec;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -99,6 +100,21 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
                 httpConnection.delegate = this;
                 httpConnection.execute("http://exporest.hol.es/v1/","get");
             }else{
+                final ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setMessage("carregando...");
+                progressDialog.show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SystemClock.sleep(500);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                            }
+                        });
+                    }
+                }).start();
                 setConfigurationConponents(null);
             }
         }else{
@@ -114,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         tabLayout.setVisibility(View.GONE);
         viewPager.setVisibility(View.GONE);
         findViewById(R.id.recyclerView).setVisibility(View.GONE);
+        findViewById(R.id.llErro).setVisibility(View.VISIBLE);
         if (mensage != null){
             TextView txtMensage = (TextView) findViewById(R.id.txtShowMensage);
             txtMensage.setText(mensage);

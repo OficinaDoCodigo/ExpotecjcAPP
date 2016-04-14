@@ -86,6 +86,6 @@ public class HttpConnection extends AsyncTask<String, Void, String>{
         }
     }
     public void snack(){
-        Snackbar.make(recyclerView,"Essa já é a última atividade!",Snackbar.LENGTH_LONG).show();
+        Snackbar.make(recyclerView,"Não há mais atividades!!",Snackbar.LENGTH_LONG).show();
     }
 }
