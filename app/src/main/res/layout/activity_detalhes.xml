@@ -260,7 +260,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
         app:layout_anchorGravity="bottom|right|end"
         android:elevation="2dp"
         android:layout_marginRight="16dp"
-        android:id="@+id/FABPerfil"
+        android:id="@+id/FABParticiparDaAtividade"
         app:fabSize="normal"
         />
 </android.support.design.widget.CoordinatorLayout>
