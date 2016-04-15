@@ -1,0 +1,146 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity"
+    android:id="@+id/llLogin"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tbLogin"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:title="Login"
+        android:elevation="3dp"
+        app:theme="@style/toobar">
+
+    </android.support.v7.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:id="@+id/scrollView" >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo"/>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/iptEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/edtEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_conponentes"
+                        android:paddingBottom="13dp"
+                        android:paddingTop="10dp"
+                        android:hint="Email"
+                        android:textSize="@dimen/text_size"
+                        android:inputType="textEmailAddress" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/iptSenha"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        >
+                        <EditText
+                            android:id="@+id/edtSenha"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_conponentes"
+                            android:paddingBottom="13dp"
+                            android:paddingTop="13dp"
+                            android:hint="Senha"
+                            android:textSize="@dimen/text_size"
+                            android:inputType="textPassword" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switcher"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textOff="off"
+                        android:textOn="on"
+                        android:checked="true"
+                        app:showText="false"
+                        android:layout_weight="4"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="4dp"
+                        android:visibility="gone">
+
+                    </android.support.v7.widget.SwitchCompat>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="30dp"
+                        >
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_conponentes"
+                            android:text="Entrar"
+                            android:background="@drawable/button_primary"
+                            android:id="@+id/btnEntrar"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size"
+                            />
+                        <Button
+                            android:layout_width="match_parent"
+                            android:textSize="@dimen/text_size"
+                            android:layout_height="wrap_content"
+                            android:text="Não tem uma conta?"
+                            android:id="@+id/btnCadastrar"
+                            android:background="@drawable/button_transparent"
+                            android:shadowColor="@color/colorAccent"
+                            android:layout_marginTop="@dimen/margin_button"
+                            android:textColor="@color/colorPrimary"
+                            />
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Esqueceu sua senha?"
+                            android:layout_marginTop="@dimen/margin_button"
+                            android:textColor="@color/colorPrimary"
+                            android:gravity="left|center_vertical"
+                            android:id="@+id/btnEsqueceuSenha"
+                            android:background="@drawable/button_transparent"
+                            android:textSize="@dimen/text_size"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

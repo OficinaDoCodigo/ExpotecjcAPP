@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.ifrn.expotec.MainActivity;
 import com.ifrn.expotec.R;
@@ -25,16 +26,22 @@ public class HttpConnection extends AsyncTask<String, Void, String>{
     private HashMap<String, String> data;
     public AsyncResponse delegate=null;
     private Context context;
-    AdapterAtividade adapterAtividade;
-    int sizeList;
-    RecyclerView recyclerView;
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    private AdapterAtividade adapterAtividade;
+    private int sizeList;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ProgressBar progressBar;
 
     public HttpConnection(Context context, HashMap<String, String> data){
         this.data = data;
         this.context = context;
     }
     public HttpConnection(Context context){
+        this.context = context;
+    }
+
+    public HttpConnection( Context context,ProgressBar progressBar) {
+        this.progressBar = progressBar;
         this.context = context;
     }
 
@@ -49,11 +56,15 @@ public class HttpConnection extends AsyncTask<String, Void, String>{
     @Override
     protected void onPreExecute() {
         progress = new ProgressDialog(context);
-        if (mSwipeRefreshLayout != null){
-            mSwipeRefreshLayout.setRefreshing(true);
+        if (progressBar != null){
+            progressBar.setVisibility(View.VISIBLE);
         }else{
-            progress.setMessage("Carregando...");
-            progress.show();
+            if (mSwipeRefreshLayout != null){
+                mSwipeRefreshLayout.setRefreshing(true);
+            }else{
+                progress.setMessage("Carregando...");
+                progress.show();
+            }
         }
     }
     @Override
@@ -66,6 +77,9 @@ public class HttpConnection extends AsyncTask<String, Void, String>{
     }
     @Override
     protected void onPostExecute(String result) {
+        if (progressBar != null){
+            progressBar.setVisibility(View.GONE);
+        }
         try {
             if (mSwipeRefreshLayout != null){
                 if (result.length() > 0) {

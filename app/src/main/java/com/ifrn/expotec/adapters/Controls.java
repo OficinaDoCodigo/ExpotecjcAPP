@@ -7,9 +7,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.ifrn.expotec.R;
 import com.ifrn.expotec.models.Atividade;
@@ -40,7 +42,39 @@ public class Controls {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    public static boolean isValidEmailAddress(EditText editText, TextInputLayout textInputLayout) {
+        String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
+        boolean isValid = editText.getText().toString().matches(EMAIL_REGEX);
+        if (isValid){
+            textInputLayout.setErrorEnabled(false);
+            return true;
+        }else{
+            textInputLayout.setError("Email inválido!");
+            editText.requestFocus();
+            return false;
+        }
+    }
+    public static boolean check(TextInputLayout textInputLayout,EditText editText,int condicao,String mensage){
+        boolean isValid = true;
+        if(editText.getText().toString().trim().length() < condicao){
+            textInputLayout.setError(mensage);
+            editText.requestFocus();
+            isValid = false;
+        }else{
+            textInputLayout.setErrorEnabled(false);
+        }
+        return  isValid;
+    }
+    public static User getUser(String data) throws JSONException {
+        User user = new User();
+        JSONObject jSonUser = new JSONObject(data).getJSONObject("user");
+        user.setId(jSonUser.getString("id"));
+        user.setNome(jSonUser.getString("name"));
+        user.setEmail(jSonUser.getString("email"));
+        user.setPhoto(jSonUser.getString("photo"));
+        return user;
+    }
     public static List<Atividade> getAtividades(JSONArray jsonArray) throws JSONException {
         List<Atividade> atividadeList = new ArrayList<>();
         for (int i = 0; i <jsonArray.length() ; i++) {
@@ -55,7 +89,7 @@ public class Controls {
 
             JSONObject jSonUser = jSonAtividade.getJSONObject("speaker");
             User user = new User();
-            user.setId(jSonUser.getInt("id"));
+            user.setId(jSonUser.getString("id"));
             user.setNome(jSonUser.getString("name"));
             user.setEmail(jSonUser.getString("email"));
             user.setPhoto(jSonUser.getString("photo"));

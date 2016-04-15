@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     private String nome;
-    private int id;
+    private String id;
     private String sobreNome;
     private String password;
     private String email;
@@ -34,11 +34,11 @@ public class User implements Serializable {
         this.nome = nome;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
