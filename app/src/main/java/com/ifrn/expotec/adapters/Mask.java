@@ -1,5 +1,6 @@
 package com.ifrn.expotec.adapters;
 
+import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
@@ -102,7 +103,8 @@ public abstract class Mask {
             public void afterTextChanged(Editable s) {}
         };
     }
-    public static boolean isCPF(String CPF) {
+    public static boolean isCPF(TextInputLayout textInputLayout,EditText editText) {
+        String CPF = editText.getText().toString();
         if (CPF.equals("00000000000") || CPF.equals("11111111111") ||
                 CPF.equals("22222222222") || CPF.equals("33333333333") ||
                 CPF.equals("44444444444") || CPF.equals("55555555555") ||
@@ -139,10 +141,18 @@ public abstract class Mask {
                 dig11 = '0';
             else dig11 = (char)(r + 48);
 
-            if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10)))
-            return(true);
-            else return(false);
+            if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10))){
+                textInputLayout.setErrorEnabled(false);
+                return(true);
+
+            }else {
+                textInputLayout.setError("Email inválido!");
+                editText.requestFocus();
+                return (false);
+            }
         } catch (InputMismatchException erro) {
+            textInputLayout.setError("Email inválido!");
+            editText.requestFocus();
             return(false);
         }
     }

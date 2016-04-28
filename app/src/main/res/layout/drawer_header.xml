@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/drawer_header"
+        android:background="@drawable/back"
         xmlns:fresco="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical">
         <com.facebook.drawee.view.SimpleDraweeView
@@ -16,7 +16,7 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             fresco:fadeDuration="300"
-            fresco:placeholderImage="@drawable/loading"
+            fresco:placeholderImage="@drawable/perfil_toobar"
             fresco:placeholderImageScaleType="fitCenter"
             fresco:progressBarImage="@drawable/loading"
             fresco:progressBarImageScaleType="centerInside"

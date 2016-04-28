@@ -1,8 +1,6 @@
 package com.ifrn.expotec.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -10,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +17,14 @@ import android.widget.TextView;
 import com.ifrn.expotec.R;
 import com.ifrn.expotec.adapters.AdapterAtividade;
 import com.ifrn.expotec.adapters.Controls;
-import com.ifrn.expotec.adapters.HttpConnection;
-import com.ifrn.expotec.interfaces.AsyncResponse;
+import com.ifrn.expotec.adapters.DAO;
+import com.ifrn.expotec.adapters.Progress;
 import com.ifrn.expotec.models.Atividade;
-import com.ifrn.expotec.models.HttpConnections;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class TabFragment extends Fragment{
     private List<Atividade> mList = new ArrayList<>();
@@ -82,6 +78,12 @@ public class TabFragment extends Fragment{
             }else{
                 scrollView.setVisibility(View.GONE);
                 try{
+                    DAO dao = new DAO(getActivity());
+                    for (int i = 0; i <mList.size() ; i++) {
+                        dao.insert(mList.get(i).getUser(),false);
+                        dao.insert(mList.get(i));
+                    }
+                    dao.close();
                     adapterAtividade = new AdapterAtividade(getActivity(),mList);
                     recyclerView.setAdapter(adapterAtividade);
                 }catch (Exception e){}
@@ -117,8 +119,8 @@ public class TabFragment extends Fragment{
                             ultimaAtividade.setTipo("mesa_redonda");
                         }
                         if (Controls.isOnline(getActivity())){
-                            HttpConnection httpConnection = new HttpConnection(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
-                            httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId(),"get");
+                            Progress progress = new Progress(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
+                            progress.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId(),"get");
                         }else {
                             Snackbar.make(recyclerView,"Você está desconectado!",Snackbar.LENGTH_LONG).show();
                         }
@@ -149,8 +151,8 @@ public class TabFragment extends Fragment{
                 }
                 adapterAtividade.removeAll();
             }catch (Exception e){}
-            HttpConnection httpConnection = new HttpConnection(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
-            httpConnection.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId()+2,"get");
+            Progress progress = new Progress(getContext(),adapterAtividade,mList.size(),mSwipeRefreshLayout,recyclerView);
+            progress.execute("http://exporest.hol.es/v1/"+ultimaAtividade.getTipo()+"/starting/"+ultimaAtividade.getId()+2,"get");
         }else{
             Snackbar.make(recyclerView,"Você está desconectado!",Snackbar.LENGTH_LONG).show();
             mSwipeRefreshLayout.setRefreshing(false);

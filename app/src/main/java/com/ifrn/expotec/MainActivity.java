@@ -1,6 +1,5 @@
 package com.ifrn.expotec;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,13 +17,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -33,7 +31,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.ifrn.expotec.adapters.AdapterMenu;
 import com.ifrn.expotec.adapters.Controls;
 import com.ifrn.expotec.adapters.DAO;
-import com.ifrn.expotec.adapters.HttpConnection;
+import com.ifrn.expotec.adapters.DataBase;
+import com.ifrn.expotec.adapters.Progress;
 import com.ifrn.expotec.interfaces.AsyncResponse;
 import com.ifrn.expotec.models.Atividade;
 import com.ifrn.expotec.models.User;
@@ -59,24 +58,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FrameLayout flErro;
     private CoordinatorLayout clErro;
     private User logged;
+    private Button btnDadosSalvos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
-        toobar = (Toolbar) findViewById(R.id.toobar);
-        setSupportActionBar(toobar);
-        getSupportActionBar().setTitle("Expotec-JC");
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        navigationView = (NavigationView) findViewById(R.id.navigation);
-        flErro = (FrameLayout) findViewById(R.id.flErro);
-        clErro = (CoordinatorLayout) findViewById(R.id.llErro);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        instance();
         toggle = new ActionBarDrawerToggle(this,drawerLayout, toobar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
@@ -107,20 +95,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+
+
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().findItem(R.id.itemHome).setChecked(true);
+
+        btnDadosSalvos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDadosSalvos();
+                flErro.setVisibility(View.GONE);
+                tabLayout.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
+                viewPager.setAdapter(new AdapterMenu(MainActivity.this.getSupportFragmentManager(),tabLayout,atividadesPorTipo,MainActivity.this,true));
+            }
+        });
+    }
+    public void getDadosSalvos(){
+        DAO dao = new DAO(MainActivity.this);
+        atividadesPorTipo = new HashMap<>();
+        atividadesPorTipo.put("minicurso",dao.getAtividades("'minicurso'"));
+        atividadesPorTipo.put("oficina",dao.getAtividades("'oficina'"));
+        atividadesPorTipo.put("palestra",dao.getAtividades("'palestra'"));
+        atividadesPorTipo.put("mesa Redonda",dao.getAtividades("'mesa Redonda'"));
+        atividadesPorTipo.put("resumo",dao.getAtividades("'resumo'"));
+        atividadesPorTipo.put("outro",dao.getAtividades("'outro'"));
+        dao.close();
+
+        tabLayout.addTab(tabLayout.newTab().setText("minicurso"));
+        tabLayout.addTab(tabLayout.newTab().setText("oficina"));
+        tabLayout.addTab(tabLayout.newTab().setText("palestra"));
+        tabLayout.addTab(tabLayout.newTab().setText("mesa Redonda"));
+        tabLayout.addTab(tabLayout.newTab().setText("resumo"));
+        tabLayout.addTab(tabLayout.newTab().setText("outro"));
+    }
+
+    public void instance(){
+        toobar = (Toolbar) findViewById(R.id.toobar);
+        setSupportActionBar(toobar);
+        getSupportActionBar().setTitle("Expotec-JC");
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+
+        navigationView = (NavigationView) findViewById(R.id.navigation);
+        flErro = (FrameLayout) findViewById(R.id.flErro);
+        clErro = (CoordinatorLayout) findViewById(R.id.llErro);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        btnDadosSalvos = (Button) findViewById(R.id.btnDadosSalvos);
     }
     public void setData(HashMap<String,List<Atividade>> hashMap){
         DAO dao = new DAO(this);
         logged = dao.getLogged();
-        navigationView.addHeaderView(getHeader());
+        dao.close();
+        if (navigationView.getHeaderCount() == 0){
+            navigationView.addHeaderView(getHeader());
+        }
         if (hashMap == null){
             conectado = false;
             if (Controls.isOnline(this)) {
                 conectado = true;
-                HttpConnection httpConnection = new HttpConnection(MainActivity.this,progressBar);
-                httpConnection.delegate = this;
-                httpConnection.execute("http://exporest.hol.es/v1/","get");
+                Progress progress = new Progress(MainActivity.this,progressBar);
+                progress.delegate = this;
+                progress.execute("http://exporest.hol.es/v1/","get");
             }else{
                 progressBar.setVisibility(View.VISIBLE);
                 new Thread(new Runnable() {
@@ -138,11 +178,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setConfigurationConponents(null);
             }
         }else{
-            Iterator itt = hashMap.values().iterator();
-            while (itt.hasNext()){
-                List<Atividade> list = (List<Atividade>)itt.next();
-                tabLayout.addTab(tabLayout.newTab().setText(list.get(0).getTipo()));
-            }
+            try{
+                Iterator itt = hashMap.values().iterator();
+                tabLayout.setVisibility(View.VISIBLE);
+                while (itt.hasNext()){
+                    List<Atividade> list = (List<Atividade>)itt.next();
+                    tabLayout.addTab(tabLayout.newTab().setText(list.get(0).getTipo()));
+                }
+            }catch (Exception e){}
             viewPager.setAdapter(new AdapterMenu(getSupportFragmentManager(),tabLayout,hashMap,this,true));
         }
     }
@@ -156,15 +199,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             TextView txtMensage = (TextView) findViewById(R.id.txtShowMensage);
             txtMensage.setText(mensage);
         }
+        DAO dao = new DAO(this);
+        if (dao.exist(DataBase.TABLE_ATIVIDADE,"")){
+            btnDadosSalvos.setVisibility(View.VISIBLE);
+        }else{
+            btnDadosSalvos.setVisibility(View.GONE);
+        }
+        dao.close();
     }
     public View getHeader() {
         View view = getLayoutInflater().inflate(R.layout.drawer_header, null);
         TextView txtNome = (TextView) view.findViewById(R.id.txtNome);
         TextView txtEmail = (TextView) view.findViewById(R.id.txtEmail);
-        txtNome.setText(logged.getNome());
-        txtEmail.setText(logged.getEmail());
+
         SimpleDraweeView  svHeader = (SimpleDraweeView) view.findViewById(R.id.svHeader);
-        svHeader.setImageURI(Uri.parse(logged.getPhoto()));
+        if (logged != null){
+            txtNome.setText(logged.getNome());
+            txtEmail.setText(logged.getEmail());
+            if (!logged.getPhoto().equals("null")){
+                svHeader.setImageURI(Uri.parse(logged.getPhoto()));
+            }
+        }else{
+            txtNome.setText("Seja bem-vindo");
+            txtNome.setTextSize(25);
+            txtEmail.setVisibility(View.GONE);
+            svHeader.setVisibility(View.INVISIBLE);
+        }
         svHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable("atividades",atividadesPorTipo);
+        System.out.println(atividadesPorTipo.size());
         super.onSaveInstanceState(outState);
     }
 

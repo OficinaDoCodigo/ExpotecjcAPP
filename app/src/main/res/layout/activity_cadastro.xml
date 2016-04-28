@@ -48,11 +48,11 @@
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true" />
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/iptNomeProfessorCd"
+                    android:id="@+id/iptNome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtNomeProfessorCd"
+                        android:id="@+id/edtNome"
                         android:layout_width="match_parent"
                         android:paddingBottom="13dp"
                         android:paddingTop="13dp"
@@ -76,12 +76,12 @@
                         android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/iptEmailCd"
+                    android:id="@+id/iptEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     >
                     <EditText
-                        android:id="@+id/edtEmailCd"
+                        android:id="@+id/edtEmail"
                         android:layout_width="match_parent"
                         android:paddingBottom="13dp"
                         android:paddingTop="13dp"
@@ -96,13 +96,13 @@
                     android:layout_height="wrap_content">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/iptSenhaCd"
+                        android:id="@+id/iptSenha"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         >
                         <EditText
-                            android:id="@+id/edtSenhaCd"
+                            android:id="@+id/edtSenha"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/height_conponentes"
                             android:textSize="@dimen/text_size"
@@ -112,7 +112,7 @@
                             android:inputType="textPassword" />
                     </android.support.design.widget.TextInputLayout>
                     <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/switcherCd"
+                        android:id="@+id/switcher"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textOff="off"
@@ -183,6 +183,23 @@
                         </android.support.v7.widget.AppCompatSpinner>
                     </LinearLayout>
                 </LinearLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/iptMatricula"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/edtMatricula"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size"
+                        android:paddingTop="16dp"
+                        android:inputType="text"
+                        android:hint="Matrícula"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false" />
+                </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/iptDiaDaAvaliacao"
                     android:layout_width="match_parent"

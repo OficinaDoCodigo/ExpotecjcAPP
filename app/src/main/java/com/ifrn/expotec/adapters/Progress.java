@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by Fabiano on 13/04/2016.
  */
-public class HttpConnection extends AsyncTask<String, Void, String>{
+public class Progress extends AsyncTask<String, Void, String>{
     private ProgressDialog progress;
     private HashMap<String, String> data;
     public AsyncResponse delegate=null;
@@ -32,20 +32,20 @@ public class HttpConnection extends AsyncTask<String, Void, String>{
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ProgressBar progressBar;
 
-    public HttpConnection(Context context, HashMap<String, String> data){
+    public Progress(Context context, HashMap<String, String> data){
         this.data = data;
         this.context = context;
     }
-    public HttpConnection(Context context){
+    public Progress(Context context){
         this.context = context;
     }
 
-    public HttpConnection( Context context,ProgressBar progressBar) {
+    public Progress(Context context, ProgressBar progressBar) {
         this.progressBar = progressBar;
         this.context = context;
     }
 
-    public HttpConnection(Context context, AdapterAtividade adapterAtividade, int sizeList, SwipeRefreshLayout msSwipeRefreshLayout, RecyclerView recyclerView) {
+    public Progress(Context context, AdapterAtividade adapterAtividade, int sizeList, SwipeRefreshLayout msSwipeRefreshLayout, RecyclerView recyclerView) {
         this.context = context;
         this.adapterAtividade = adapterAtividade;
         this.sizeList =sizeList;
