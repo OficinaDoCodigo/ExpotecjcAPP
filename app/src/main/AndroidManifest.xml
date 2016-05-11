@@ -23,8 +23,14 @@
             android:label="@string/title_activity_detalhes"
             android:theme="@style/AppTheme" />
         <activity android:name=".Login" />
-        <activity android:name=".Cadastro"></activity>
-        <activity android:name=".MinhaConta"></activity>
+        <activity
+            android:name=".Cadastro"
+            android:label="Cadastro" />
+        <activity android:name=".MinhaConta" />
+        <activity
+            android:name=".Agenda"
+            android:label="Agenda" />
+        <activity android:name=".Sobre"></activity>
     </application>
 
 </manifest>

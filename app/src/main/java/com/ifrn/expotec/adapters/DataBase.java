@@ -30,6 +30,7 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String VAGAS = "vagas" ;
     public static final String ID_ATIVIDADE = "_id_atividade";
 
+    public static final String TABLE_MINHAS_ATIVIDADES = "minhas_atividades";
     public DataBase(Context context) {
         super(context, NOME_DB, null,VERSAO );
     }
@@ -57,6 +58,9 @@ public class DataBase extends SQLiteOpenHelper {
                 DESCRICAO+" text ,"+
                 VAGAS+" text,"+
                 TIPO+" text not null);");
+        db.execSQL("CREATE TABLE "+TABLE_MINHAS_ATIVIDADES+" ("+
+                ID_ATIVIDADE+"  INTEGER PRIMARY KEY ,"+
+                ID_USER +"  REFERENCES "+TABLE_LOGIN+" ("+ ID_USER +"));");
     }
 
     @Override
@@ -64,5 +68,6 @@ public class DataBase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_LOGIN+";");
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_USER+";");
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_ATIVIDADE+";");
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_MINHAS_ATIVIDADES+";");
     }
 }

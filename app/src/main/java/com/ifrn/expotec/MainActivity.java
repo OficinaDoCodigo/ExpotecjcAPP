@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CoordinatorLayout clErro;
     private User logged;
     private Button btnDadosSalvos;
+    String data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         if (savedInstanceState != null){
-            atividadesPorTipo = (HashMap<String, List<Atividade>>) savedInstanceState.getSerializable("atividades");
-            setData(atividadesPorTipo);
+            data = savedInstanceState.getString("data");
+            getDados(data);
         }else{
             setData(null);
         }
@@ -117,11 +119,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         atividadesPorTipo.put("minicurso",dao.getAtividades("'minicurso'"));
         atividadesPorTipo.put("oficina",dao.getAtividades("'oficina'"));
         atividadesPorTipo.put("palestra",dao.getAtividades("'palestra'"));
-        atividadesPorTipo.put("mesa Redonda",dao.getAtividades("'mesa Redonda'"));
+        atividadesPorTipo.put("mesa Redonda",dao.getAtividades("'mesa redonda'"));
         atividadesPorTipo.put("resumo",dao.getAtividades("'resumo'"));
         atividadesPorTipo.put("outro",dao.getAtividades("'outro'"));
         dao.close();
-
+        setTabs();
+    }
+    public void setTabs(){
         tabLayout.addTab(tabLayout.newTab().setText("minicurso"));
         tabLayout.addTab(tabLayout.newTab().setText("oficina"));
         tabLayout.addTab(tabLayout.newTab().setText("palestra"));
@@ -129,7 +133,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.addTab(tabLayout.newTab().setText("resumo"));
         tabLayout.addTab(tabLayout.newTab().setText("outro"));
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.dias, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.itemPrimeiro:
+                break;
+            case R.id.itemSengundo:
+                break;
+            case R.id.itemTerceiro:
+                break;
+            case R.id.itemTodos:
+                break;
+        }
+        item.setChecked(!item.isChecked());
+        return super.onOptionsItemSelected(item);
+    }
     public void instance(){
         toobar = (Toolbar) findViewById(R.id.toobar);
         setSupportActionBar(toobar);
@@ -151,9 +175,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DAO dao = new DAO(this);
         logged = dao.getLogged();
         dao.close();
-        if (navigationView.getHeaderCount() == 0){
-            navigationView.addHeaderView(getHeader());
-        }
         if (hashMap == null){
             conectado = false;
             if (Controls.isOnline(this)) {
@@ -179,14 +200,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }else{
             try{
-                Iterator itt = hashMap.values().iterator();
                 tabLayout.setVisibility(View.VISIBLE);
-                while (itt.hasNext()){
-                    List<Atividade> list = (List<Atividade>)itt.next();
-                    tabLayout.addTab(tabLayout.newTab().setText(list.get(0).getTipo()));
-                }
-            }catch (Exception e){}
-            viewPager.setAdapter(new AdapterMenu(getSupportFragmentManager(),tabLayout,hashMap,this,true));
+                setTabs();
+                System.out.println(hashMap.get("resumo").size());
+                viewPager.setAdapter(new AdapterMenu(getSupportFragmentManager(),tabLayout,hashMap,this,true));
+            }catch (Exception e){e.printStackTrace();}
         }
     }
     public void setConfigurationConponents(String mensage){
@@ -238,28 +256,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable("atividades",atividadesPorTipo);
-        System.out.println(atividadesPorTipo.size());
+        outState.putString("data",data);
         super.onSaveInstanceState(outState);
     }
-
+    public void getDados(String data){
+        try {
+            if (data.length() > 0) {
+                atividadesPorTipo = Controls.getData(data, tabLayout);
+                if (atividadesPorTipo.size() == 0){
+                    setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
+                }else{
+                    flErro.setVisibility(View.GONE);
+                    tabLayout.setVisibility(View.VISIBLE);
+                    viewPager.setVisibility(View.VISIBLE);
+                    viewPager.setAdapter(new AdapterMenu(MainActivity.this.getSupportFragmentManager(),tabLayout,atividadesPorTipo,MainActivity.this,conectado));
+                }
+            }else{
+                setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
+            }
+            if (navigationView.getHeaderCount() == 0){
+                navigationView.addHeaderView(getHeader());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
+        }
+    }
     @Override
     public void processFinish(String data) {
         progressBar.setVisibility(View.GONE);
-        if (data.length() > 0) {
-            atividadesPorTipo = Controls.getData(data, tabLayout);
-            if (atividadesPorTipo.size() == 0){
-                setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
-            }else{
-                flErro.setVisibility(View.GONE);
-                tabLayout.setVisibility(View.VISIBLE);
-                viewPager.setVisibility(View.VISIBLE);
-                viewPager.setAdapter(new AdapterMenu(MainActivity.this.getSupportFragmentManager(),tabLayout,atividadesPorTipo,MainActivity.this,conectado));
-            }
-        }else{
-            setConfigurationConponents("Desculpe, mas ocorreu um erro, tente novamente!");
-        }
-
+        this.data = data;
+        getDados(data);
     }
 
     public void start(Class classe){
@@ -287,18 +314,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        item.setChecked(true);
         switch (id){
             case R.id.itemHome:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.itemAgenda:
-                //start( ShowTurmas.class, drawerLayout);
+                start(Agenda.class);
                 break;
             case R.id.itemMinhaConta:
-                start(Login.class);
+                if(logged != null){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    Intent it = new Intent(this, MinhaConta.class);
+                    it.putExtra("logged",logged);
+                    startActivity(it);
+                }else{
+                    start(Login.class);
+                }
                 break;
             case R.id.itemSobre:
+                start(Sobre.class);
                 break;
             case R.id.itemConfi:
                 break;

@@ -1,0 +1,254 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:orientation="horizontal"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    tools:context=".Detalhes"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/appBar"
+        android:layout_weight="1.2"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/fotoUserDetalhes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                fresco:fadeDuration="300"
+                app:layout_collapseMode="parallax"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                fresco:placeholderImage="@drawable/perfil_toobar"
+                fresco:placeholderImageScaleType="fitCenter"
+                fresco:progressBarImage="@drawable/loading"
+                fresco:progressBarImageScaleType="centerInside"
+                fresco:progressBarAutoRotateInterval="500"
+                />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tbDetalhes"
+                android:layout_width="match_parent"
+                app:layout_collapseMode="pin"
+                app:theme="@style/toobar"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize"
+                />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+        <com.melnykov.fab.ObservableScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/observableScrollView"
+            android:fillViewport="true"
+            >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="28dp"
+                        >
+                        <ImageView
+                            android:id="@+id/ivPerfil"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            />
+
+                        <TextView
+                            android:id="@+id/txtNome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:textSize="17sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="Carlos Henrique Teixaira De Souza" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtMiniCuriculo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="65dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="14dp"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    " />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="65dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_height="1dp"
+                        android:background="@color/colorGray"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="24dp"
+                        >
+                        <ImageView
+                            android:id="@+id/ivEvent"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            android:src="@android:drawable/ic_menu_crop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:textSize="17sp"
+                            android:id="@+id/txtTitulo"
+                            android:textColor="@color/colorBlack"
+                            android:text="REST-API" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="65dp"
+                            android:layout_marginBottom="14dp"
+                            android:layout_weight="4"
+                            android:id="@+id/txtDuracao"
+                            android:text="Duração: 2h" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="65dp"
+                            android:id="@+id/txtVagas"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="14dp"
+                            android:text="Vagas: 40" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="24dp"
+                        >
+                        <ImageView
+                            android:id="@+id/ivData"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            android:src="@android:drawable/ic_menu_crop"/>
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:textSize="17sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="Data" />
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="65dp"
+                        android:layout_marginBottom="14dp"
+                        android:text="Dia 20/04 às 14:30"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="24dp"
+                        >
+                        <ImageView
+                            android:id="@+id/ivDescricao"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_marginLeft="16dp"
+                            android:adjustViewBounds="true"
+                            android:src="@android:drawable/ic_menu_crop"/>
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:textSize="17sp"
+                            android:textColor="@color/colorBlack"
+                            android:text="Descrição" />
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtDescricao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="65dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="14dp"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+                </LinearLayout>
+            </LinearLayout>
+        </com.melnykov.fab.ObservableScrollView>
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/FABParticiparDaAtividade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_event_available_white_24dp"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            />
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

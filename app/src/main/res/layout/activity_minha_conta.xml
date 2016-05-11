@@ -26,7 +26,7 @@
 
                 />-->
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/fotoUserDetalhes"
+                android:id="@+id/fotoUser"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -41,7 +41,7 @@
                 fresco:progressBarAutoRotateInterval="500"
                 />
             <android.support.v7.widget.Toolbar
-                android:id="@+id/tbDetalhes"
+                android:id="@+id/tbMinhaConta"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
                 app:theme="@style/toobar"
@@ -81,38 +81,16 @@
                         android:layout_marginLeft="16dp"
                         android:adjustViewBounds="true"
                         />
-
                     <TextView
-                        android:id="@+id/txtNome"
+                        android:id="@+id/txtEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="22dp"
                         android:textSize="17sp"
+                        android:layout_marginBottom="16dp"
                         android:textColor="@color/colorBlack"
-                        android:text="Carlos Henrique Teixaira De Souza" />
+                        android:text="Email" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txtMiniCuriculo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="65dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginBottom="14dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="65dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_height="1dp"
-                    android:background="@color/colorGray"
-                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,7 +109,7 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                         android:layout_height="26dp"
                         android:layout_marginLeft="16dp"
                         android:adjustViewBounds="true"
-                        android:src="@android:drawable/ic_menu_crop"/>
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -140,30 +118,16 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                         android:textSize="17sp"
                         android:id="@+id/txtTitulo"
                         android:textColor="@color/colorBlack"
-                        android:text="REST-API" />
+                        android:text="Atividades como participante" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="65dp"
-                        android:layout_marginBottom="14dp"
-                        android:layout_weight="4"
-                        android:id="@+id/txtDuracao"
-                        android:text="Duração: 2h" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="65dp"
-                        android:id="@+id/txtVagas"
-                        android:layout_weight="1"
-                        android:layout_marginBottom="14dp"
-                        android:text="Vagas: 40" />
+                    android:layout_height="250dp"
+                    android:id="@+id/llParticipante"
+                    android:orientation="vertical">
+                    <include layout="@layout/sem_atividade"
+                        android:id="@+id/llsemAtividadesP"/>
                 </LinearLayout>
-
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -172,69 +136,30 @@ cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
                     android:layout_marginTop="24dp"
                     >
                     <ImageView
-                        android:id="@+id/ivData"
+                        android:id="@+id/ivEvent2"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
                         android:layout_marginLeft="16dp"
                         android:adjustViewBounds="true"
-                        android:src="@android:drawable/ic_menu_crop"/>
+                        />
 
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="22dp"
                         android:textSize="17sp"
+                        android:id="@+id/txtTitulo2"
                         android:textColor="@color/colorBlack"
-                        android:text="Data" />
-
+                        android:text="Atividades como ministrante" />
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/txtData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="65dp"
-                    android:layout_marginBottom="14dp"
-                    android:text="Dia 20/04 às 14:30"/>
-
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="24dp"
-                    >
-                    <ImageView
-                        android:id="@+id/ivDescricao"
-                        android:layout_width="26dp"
-                        android:layout_height="26dp"
-                        android:layout_marginLeft="16dp"
-                        android:adjustViewBounds="true"
-                        android:src="@android:drawable/ic_menu_crop"/>
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="22dp"
-                        android:textSize="17sp"
-                        android:textColor="@color/colorBlack"
-                        android:text="Descrição" />
-
+                    android:layout_height="250dp"
+                    android:id="@+id/llMinistrante"
+                    android:orientation="vertical">
+                    <include layout="@layout/sem_atividade"
+                        android:id="@+id/llsemAtividadesM"/>
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/txtDescricao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="65dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="14dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
             </LinearLayout>
         </LinearLayout>
 
@@ -255,7 +180,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         app:borderWidth="0dp"
-        android:src="@drawable/ic_event_available_white_24dp"
+        android:src="@drawable/ic_mode_edit_white_24dp"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|right|end"
         android:elevation="2dp"

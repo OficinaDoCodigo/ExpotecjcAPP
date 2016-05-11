@@ -2,6 +2,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
     xmlns:fresco="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -15,16 +16,6 @@
             android:layout_height="match_parent"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <!--<ImageView
-                android:id="@+id/ivPerfilCl"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
-                />-->
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/fotoUserDetalhes"
                 android:layout_width="match_parent"
@@ -239,18 +230,6 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-    <!--<android.support.design.widget.FloatingActionButton
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        app:borderWidth="0dp"
-        android:src="@drawable/ic_mode_edit_white_24dp"
-        app:layout_anchor="@id/appBar"
-        app:layout_anchorGravity="bottom|right|end"
-        android:elevation="2dp"
-        android:layout_marginRight="16dp"
-        android:id="@+id/FABPerfil"
-        app:fabSize="normal"
-        />-->
     <android.support.design.widget.FloatingActionButton
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"

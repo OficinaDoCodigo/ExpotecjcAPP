@@ -61,6 +61,28 @@ public class DAO {
             return null;
         }
     }
+    public void insert(List<Integer> minhasAtividadesId,int idLogged){
+        for (int i = 0; i < minhasAtividadesId.size(); i++) {
+            if (!exist(DataBase.TABLE_MINHAS_ATIVIDADES,"where "+DataBase.ID_ATIVIDADE+" = "+minhasAtividadesId.get(i)+" and "+DataBase.ID_USER+" = "+idLogged)){
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DataBase.ID_ATIVIDADE, minhasAtividadesId.get(i));
+                contentValues.put(DataBase.ID_USER,idLogged);
+
+                db.insert(DataBase.TABLE_MINHAS_ATIVIDADES, null, contentValues);
+            }
+        }
+
+    }
+    public List<Integer> getMinhasAtividades(int idLogged){
+        List<Integer> minhasAtividades = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from "+DataBase.TABLE_MINHAS_ATIVIDADES+";",null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            minhasAtividades.add(cursor.getInt(cursor.getColumnIndex(DataBase.ID_ATIVIDADE)));
+        }
+        cursor.close();
+        return minhasAtividades;
+    }
     public List<Atividade> getAtividades(String tipo){
         User user = null;
         Cursor cursor = db.rawQuery("select * from "+DataBase.TABLE_ATIVIDADE

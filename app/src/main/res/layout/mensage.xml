@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#dddedf"
+    android:padding="5dp"
+    android:id="@+id/txtShowMensage"
+    android:text="20/05/2016"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

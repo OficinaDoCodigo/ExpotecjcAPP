@@ -114,6 +114,7 @@
                             android:id="@+id/btnEntrar"
                             android:textColor="@color/colorAccent"
                             android:textSize="@dimen/text_size"
+                            android:layout_marginBottom="6dp"
                             />
                         <Button
                             android:layout_width="match_parent"
@@ -125,17 +126,6 @@
                             android:shadowColor="@color/colorAccent"
                             android:layout_marginTop="@dimen/margin_button"
                             android:textColor="@color/colorPrimary"
-                            />
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Esqueceu sua senha?"
-                            android:layout_marginTop="@dimen/margin_button"
-                            android:textColor="@color/colorPrimary"
-                            android:gravity="left|center_vertical"
-                            android:id="@+id/btnEsqueceuSenha"
-                            android:background="@drawable/button_transparent"
-                            android:textSize="@dimen/text_size"
                             />
                     </LinearLayout>
                 </LinearLayout>

@@ -2,6 +2,7 @@ package com.ifrn.expotec.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -34,14 +35,11 @@ public class TabFragment extends Fragment{
     ViewGroup viewGroup;
     Atividade ultimaAtividade;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    HashMap<String,List<Atividade>> atividadesPorTipo;
-    String key;
     RecyclerView recyclerView;
     @SuppressLint("ValidFragment")
-    public TabFragment(boolean conectado,HashMap<String,List<Atividade>> atividadesPorTipo,String key){
-        this.atividadesPorTipo = atividadesPorTipo;
+    public TabFragment(boolean conectado,List<Atividade> mList){
+        this.mList = mList;
         this.conectado = conectado;
-        this.key = key;
     }
     public TabFragment(){}
     @Override
@@ -62,11 +60,10 @@ public class TabFragment extends Fragment{
         if(savedInstanceState != null){
             mList = (List<Atividade>) savedInstanceState.getSerializable("atividades");
         }else{
-            if (atividadesPorTipo == null && conectado){
+            if (mList == null && conectado){
                 txtMensage.setText("Desculpe, mas ocorreu um erro!");
             }else{
-                mList = atividadesPorTipo.get(key);
-                if(!atividadesPorTipo.containsKey(key)){
+                if(mList.size() == 0){
                     txtMensage.setText("Nenhum resultado encontrado para essa categoria!");
                 }
             }
@@ -78,19 +75,26 @@ public class TabFragment extends Fragment{
             }else{
                 scrollView.setVisibility(View.GONE);
                 try{
-                    DAO dao = new DAO(getActivity());
-                    for (int i = 0; i <mList.size() ; i++) {
-                        dao.insert(mList.get(i).getUser(),false);
-                        dao.insert(mList.get(i));
-                    }
-                    dao.close();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DAO dao = new DAO(getActivity());
+                            for (int i = 0; i <mList.size() ; i++) {
+                                dao.insert(mList.get(i).getUser(),false);
+                                dao.insert(mList.get(i));
+                            }
+                            dao.close();
+                        }
+                    }).start();
                     adapterAtividade = new AdapterAtividade(getActivity(),mList);
                     recyclerView.setAdapter(adapterAtividade);
                 }catch (Exception e){}
             }
-        }catch (Exception e){
-
-        }
+        }catch (Exception e){}
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimary,
+                R.color.colorBlue,
+                R.color.colorGreen);
        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

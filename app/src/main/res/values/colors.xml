@@ -5,8 +5,11 @@
     <color name="colorAccent">#fff</color>
     <color name="colorBlack">#222</color>
     <color name="colorGray">#AAA</color>
-
+    <color name="colorBlue">#132eb6</color>
+    <color name="colorGreen">#17961f</color>
    <!-- <color name="colorPrimary">#55555F</color>
     <color name="colorPrimaryDark">#44444F</color>
     <color name="colorAccent">#fff</color>-->
 </resources>
+
+

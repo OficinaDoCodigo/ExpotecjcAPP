@@ -75,6 +75,14 @@ public class Controls {
         user.setPhoto(jSonUser.getString("photo"));
         return user;
     }
+    public static List<Integer> getMinhasAtividades(String data) throws JSONException {
+        JSONArray jSonAtividades = new JSONObject(data).getJSONArray("activities");
+        List<Integer> minhasAtividades = new ArrayList<>();
+        for (int i = 0; i <jSonAtividades.length() ; i++) {
+            minhasAtividades.add(jSonAtividades.getInt(i));
+        }
+        return minhasAtividades;
+    }
     public static List<Atividade> getAtividades(JSONArray jsonArray) throws JSONException {
         List<Atividade> atividadeList = new ArrayList<>();
         for (int i = 0; i <jsonArray.length() ; i++) {

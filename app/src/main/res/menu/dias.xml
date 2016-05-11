@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/itemDias"
+        android:title="Dias"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        app:showAsAction="always"
+        >
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/itemTodos"
+                    android:title="Todos"
+                    android:checked="true"
+                    android:orderInCategory="100"
+                    app:showAsAction="never"
+                    />
+                <item android:id="@+id/itemPrimeiro"
+                    android:title="18/05/2016"
+                    android:orderInCategory="100"
+                    app:showAsAction="never"
+                    />
+                <item android:id="@+id/itemSengundo"
+                    android:title="19/05/2016"
+                    android:orderInCategory="100"
+                    app:showAsAction="never"
+                    />
+                <item android:id="@+id/itemTerceiro"
+                    android:title="20/05/2016"
+                    android:orderInCategory="100"
+                    app:showAsAction="never"
+                    />
+            </group>
+        </menu>
+    </item>
+</menu>

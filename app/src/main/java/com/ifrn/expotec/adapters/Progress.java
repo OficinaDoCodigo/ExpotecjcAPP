@@ -83,14 +83,25 @@ public class Progress extends AsyncTask<String, Void, String>{
         try {
             if (mSwipeRefreshLayout != null){
                 if (result.length() > 0) {
-                    List<Atividade> novos = Controls.recarregar(result);
+                    final List<Atividade> novos = Controls.recarregar(result);
                     if (novos.size() == 0){
                         snack();
                     }
                     for (int i = 0; i <novos.size() ; i++) {
-                        novos.get(i).setTitulo(novos.get(i).getTitulo());
                         adapterAtividade.addItem(novos.get(i),sizeList);
                     }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DAO dao = new DAO(context);
+                            for (int i = 0; i <novos.size() ; i++) {
+                                dao.insert(novos.get(i).getUser(),false);
+                                dao.insert(novos.get(i));
+                                System.out.println(novos.get(i).getTipo());
+                            }
+                            dao.close();
+                        }
+                    }).start();
                 }else{
                     snack();
                 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ifrn.expotec.Sobre">
+    <include layout="@layout/toolbar"
+        android:id="@+id/tbSobre"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/logo"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="      A Expotec é um dos eventos mais importantes do calendário do IFRN, acontece anualmente e tem como objetivo dar visibilidade às produções acadêmicas, científicas, tecnológicas e culturais desenvolvidas pelos alunos e servidores do Instituto, nas suas três dimensões de atuação: ensino, pesquisa e extensão.\n     O evento acontece no início do ano letivo de 2016, entre os dias 18 e 20 de maio, servindo, também, como forma de apresentar, estimular e integrar novos e antigos alunos à dinâmica do IFRN, proporcionando um momento rico de discussões, troca de experiências, aprofundamento e celebração do conhecimento, através de palestras, oficinas, minicursos e extensa programação cultural.
+
+"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:id="@+id/txtSobre"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Desenvolvido por:"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlue"
+                android:textSize="16sp"
+                android:layout_margin="16dp"
+                android:text="Fabiano de Araujo"
+                android:id="@+id/txtF"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlue"
+                android:textSize="16sp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="Carlos Henrique"
+                android:id="@+id/txtH"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

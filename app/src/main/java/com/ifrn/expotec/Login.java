@@ -1,6 +1,7 @@
 package com.ifrn.expotec;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import com.ifrn.expotec.models.User;
 import org.json.JSONException;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Login extends AppCompatActivity implements AsyncResponse{
     private Toolbar tbLogin ;
@@ -37,7 +39,6 @@ public class Login extends AppCompatActivity implements AsyncResponse{
     private Button btnEntrar;
     private LinearLayout llLogin;
     private Button btnCadastrar;
-    private Button btnEsqueceuSenha;
     private SwitchCompat switchCompat;
     private HashMap<String,String> login;
     @Override
@@ -48,7 +49,6 @@ public class Login extends AppCompatActivity implements AsyncResponse{
         tbLogin = (Toolbar) findViewById(R.id.tbLogin);
         btnEntrar = (Button)findViewById(R.id.btnEntrar);
         btnCadastrar = (Button)findViewById(R.id.btnCadastrar);
-        btnEsqueceuSenha = (Button)findViewById(R.id.btnEsqueceuSenha);
         editEmail = (EditText) findViewById(R.id.edtEmail);
         editSenha = (EditText) findViewById(R.id.edtSenha);
         ipEmail = (TextInputLayout) findViewById(R.id.iptEmail);
@@ -73,17 +73,15 @@ public class Login extends AppCompatActivity implements AsyncResponse{
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this,Cadastro.class));
+                Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www2.ifrn.edu.br/expotecjc/view/cadastro/"));
+                startActivity(it);
             }
         });
         editSenha.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -112,14 +110,24 @@ public class Login extends AppCompatActivity implements AsyncResponse{
     public void processFinish(String output) {
         try {
             User userLogged = Controls.getUser(output);
+            List<Integer> minhasAtividades = Controls.getMinhasAtividades(output);
             if (userLogged.getId().equals("null")){
-                Snackbar.make(llLogin,"Email ou senha incorretos!",Snackbar.LENGTH_LONG);
+                Snackbar.make(llLogin,"Email ou senha incorretos!",Snackbar.LENGTH_LONG).show();
             }else{
                 try{
                     userLogged.setPassword(login.get("password"));
                     DAO dao = new DAO(this);
                     dao.insert(userLogged,true);
+                    dao.insert(minhasAtividades,Integer.parseInt(userLogged.getId()));
                     dao.close();
+
+                    Intent it = new Intent(this, MinhaConta.class);
+                    it.putExtra("logged",userLogged);
+                    it.putExtra("recarregar","");
+                    startActivity(it);
+
+
+                    Login.this.finish();
                 }catch (Exception e){
 
                 }

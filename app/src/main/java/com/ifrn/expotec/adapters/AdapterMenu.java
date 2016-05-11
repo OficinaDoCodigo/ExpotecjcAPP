@@ -36,7 +36,7 @@ public class AdapterMenu extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         String key = tabLayout.getTabAt(position).getText().toString();
 
-        TabFragment tab = new TabFragment(conectado,atividadesPorTipo,key);
+        TabFragment tab = new TabFragment(conectado,atividadesPorTipo.get(key));
 
         return tab;
     }
